@@ -26,10 +26,10 @@ class AuthController extends Controller
           $plainTextCharacterAscii = ord($plainText[$letter]);
           $cipherKeyCharacterAscii = ord($cipherKey[$letter]);
 
-          $plainTextCharacterInteger = $plainTextCharacterAscii - 65; // {0, 1, 2, ..., 25}
-          $cipherKeyCharacterInteger = $cipherKeyCharacterAscii - 65; // {0, 1, 2, ..., 25}
+          $plainTextCharacterInteger = $plainTextCharacterAscii - 65; 
+          $cipherKeyCharacterInteger = $cipherKeyCharacterAscii - 65; 
 
-          $oneTimePad = ($plainTextCharacterInteger + $cipherKeyCharacterInteger) % 26; // {0, 1, 2, ..., 25}
+          $oneTimePad = ($plainTextCharacterInteger + $cipherKeyCharacterInteger) % 26; 
 
           $cipherTextCharacterAscii = $oneTimePad + 65;
           $cipherText .= $cipherTextCharacterAscii;
@@ -81,7 +81,7 @@ class AuthController extends Controller
 
         date_default_timezone_set('Asia/Jakarta');
         $start = 'now';
-        $exp = date('Y-m-d H:i',strtotime('+60 second',strtotime($start)));
+        $exp = date('Y-m-d H:i',strtotime('+120 second',strtotime($start)));
 
         $data = User::where('email', $email)->where('is_verification', "1");
         if(count($data->get()) > 0){
@@ -98,7 +98,7 @@ class AuthController extends Controller
                   $message->to($request->get('email'));
               });
 
-              return Redirect::to("login2")->with('email', $data->email)->with('alert-success','Silahkan cek email untuk mendapatkan password.');;
+              return Redirect::to("login2")->with('email', $data->email)->with('alert-success','Silahkan cek email untuk mendapatkan password.');
             }                                           
         }
         else{
@@ -134,6 +134,9 @@ class AuthController extends Controller
         else {
           return Redirect::to("login")->with('alert', 'Password salah atau Password kadaluarsa!');
         }    
+      }
+      else {
+        return Redirect::to("login")->with('alert', 'Password salah atau Password kadaluarsa!');
       }
     }
 

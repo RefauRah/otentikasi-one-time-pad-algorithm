@@ -1,87 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Login Form</title>
- 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<!--Bootsrap 4 CDN-->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="{{url('css/style.css')}}">
- 
+	<title>Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{{url('/assets/auth/images/icons/favicon.ico')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url('/assets/auth/vendor/bootstrap/css/bootstrap.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url('/assets/auth/fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url('/assets/auth/vendor/animate/animate.css')}}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{{url('/assets/auth/vendor/css-hamburgers/hamburgers.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url('/assets/auth/vendor/select2/select2.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url('/assets/auth/css/util.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url('/assets/auth/css/main.css')}}">
+<!--===============================================================================================-->
 </head>
 <body>
-<div class="container-fluid">
-  <div class="row no-gutter">
-    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
-    <div class="col-md-8 col-lg-6">
-      <div class="login d-flex align-items-center py-5">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-9 col-lg-8 mx-auto">
-            @if(\Session::has('alert'))
-                <div class="alert alert-danger">
-                    <div>{{ Session::get('alert') }}</div>
-                </div>
-            @endif
-            @if(\Session::has('alert-success'))
-                <div class="alert alert-success">
-                    <div>{{ Session::get('alert-success') }}</div>
-                </div>
-            @endif
-              <p id="timer">Password will be expired at <span id="time">60 </span> Second</p>
-               <form action="{{url('post-password')}}" method="POST" id="logForm">
- 
-                 {{ csrf_field() }}
- 
-                <div class="form-label-group">
-                  <input type="hidden" name="email" value="{{Session::get('email')}}" id="inputEmail" class="form-control" placeholder="Email address" >
-                  <label for="inputEmail">Email address</label>
- 
-                  @if ($errors->has('email'))
-                  <span class="error">{{ $errors->first('email') }}</span>
-                  @endif    
-                </div> 
- 
-                <div class="form-label-group">
-                  <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
-                  <label for="inputPassword">Password</label>
-                   
-                  @if ($errors->has('password'))
-                  <span class="error">{{ $errors->first('password') }}</span>
-                  @endif  
-                </div>
-                
-                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Sign In</button>
-                <div class="text-center">If you have an account?
-                  <a class="small" href="{{url('registration')}}">Sign Up</a></div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
- 
-<script>
-  var counter = 60;
-  var interval = setInterval(function() {
-      counter--;
-      // Display 'counter' wherever you want to display it.
-      if (counter <= 0) {
-          clearInterval(interval);
-          $('#timer').html("<h6>Click <a href='#'>here<a> to regenarate password</h6>");  
-          return;
-      }else{
-        $('#time').text(counter);
-        console.log("Timer --> " + counter);
-      }
-  }, 1000);
-</script>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img src="{{url('/assets/auth/images/img-01.png')}}" alt="IMG">
+				</div>        
+				<form action="{{url('post-password')}}" method="POST" class="login100-form validate-form">
+        {{ csrf_field() }}
+          @if(\Session::has('alert'))
+              <div class="alert alert-danger">
+                  <div>{{ Session::get('alert') }}</div>
+              </div>
+          @endif
+          @if(\Session::has('alert-success'))
+              <div class="alert alert-success">
+                  <div>{{ Session::get('alert-success') }}</div>
+              </div>
+          @endif
+					<span class="login100-form-title">          
+						Login
+					</span>
+
+					<div class="input-email">
+						<input class="input100" type="hidden" value="{{Session::get('email')}}" name="email" placeholder="Email">					
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="password" name="password" placeholder="Password">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+            </span>            
+          </div>      
+					
+					<div class="container-login100-form-btn">
+          <p id="timer">Password will be expired at <span id="time">120 </span> Second</p>
+						<button type="submit" class="login100-form-btn">
+							Verify
+						</button>
+					</div>					
+
+					<div class="text-center p-t-136">
+						<a class="txt2" href="{{url('registration')}}">
+							Create your Account
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+
+	
+<!--===============================================================================================-->	
+	<script src="{{url('/assets/auth/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{url('/assets/auth/vendor/bootstrap/js/popper.js')}}"></script>
+	<script src="{{url('/assets/auth/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{url('/assets/auth/vendor/select2/select2.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{url('/assets/auth/vendor/tilt/tilt.jquery.min.js')}}"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="{{url('/assets/auth/js/main.js')}}"></script>
+<!--===============================================================================================-->
+  <script>
+    var counter = 120;
+    var interval = setInterval(function() {
+        counter--;
+        // Display 'counter' wherever you want to display it.
+        if (counter <= 0) {
+            clearInterval(interval);
+            $('#timer').html("<h6>Click <a href='#'>here<a> to regenarate password</h6>");  
+            return;
+        }else{
+          $('#time').text(counter);
+          console.log("Timer --> " + counter);
+        }
+    }, 1000);
+  </script>
 </body>
 </html>
